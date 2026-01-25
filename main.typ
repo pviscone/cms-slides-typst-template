@@ -15,8 +15,11 @@
       "Author Thirds": ("CERN",),
       "\ on behalf of the CMS Collaboration": (),
     ),
-    extra: [*Conference 2077*\ New Tokyo\ 29-31 February 2077],
-    footer: [First Author, Second Author, Third Author],
+    conference: "Conference 2077",
+    location: "New Tokyo",
+    date: "29-31 February 2077",
+    footer: ("Piero Viscone", "#title", "#conference"),
+    footer_size: 10pt,
     download-qr: "",
   ),
   config-common(
@@ -53,10 +56,7 @@
 //
 // -------------------------------[[ CUT HERE ]]--------------------------------
 
-#title-slide(title_multiplier: 1.0,
-            subtitle_multiplier: 1.0,
-            author_multiplier: 1.0,
-            extra_multiplier: 1.0)
+#title-slide(title_multiplier: 1.0, subtitle_multiplier: 1.0, author_multiplier: 1.0, extra_multiplier: 1.0)
 
 #include "chapters/showcase.typ"
 

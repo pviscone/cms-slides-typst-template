@@ -55,6 +55,8 @@
   alignment: none,
   outlined: true,
   head: 2,
+  size: 20pt,
+  spacing: 0.65em,
   ..args,
 ) = touying-slide-wrapper(self => {
   let info = self.info + args.named()
@@ -65,18 +67,19 @@
   // ---------------------------------------------------------------------------
   let header(self) = {
     // Slide Title: if the user overrides the title of a certain slide, use it
-    let hdr = if title != auto { title } else { self.store.header }
+    let hdr = if title != auto { title } else { "" }
 
     show heading: set text(size: 24pt, weight: "semibold")
-
-    grid(
-      columns: (self.page.margin.left, 1fr, 1cm, auto, 1.2cm),
-      block(),
-      heading(level: head, outlined: outlined, hdr),
-      block(),
-      move(dy: -0.31cm, institute-logo(self)),
-      block(),
-    )
+    place(top)[
+      #box(fill: self.colors.primary, height: 1.4cm, width: 100%)[
+        #v(12pt)
+        #heading(level: head, outlined: outlined, [
+          #set text(fill: self.colors.tertiary)
+          #h(15pt)
+          #hdr
+        ])
+      ]
+    ]
   }
 
   // Footer:
@@ -85,38 +88,54 @@
   // ---------------------------------------------------------------------------
   let footer(self) = context {
     set block(height: 100%, width: 100%)
-    set text(size: 15pt, fill: self.colors.footer)
+    set text(size: info.footer_size, fill: self.colors.footer, weight: "medium")
 
+    let scope = (
+      title: info.at("title", default: ""),
+      authors: info.at("authors", default: ()),
+      subtitle: info.at("subtitle", default: ""),
+      conference: info.at("conference", default: ""),
+      location: info.at("location", default: ""),
+      date: info.at("date", default: ""),
+    )
+    v(-0.15cm)
     grid(
-      columns: (self.page.margin.bottom - 1.68%, 1.3%, auto, 1cm),
-      block(fill: self.colors.primary)[
+      columns: (self.page.margin.bottom - 0.15%, 0.8%, auto, 0.5cm),
+      block(fill: self.colors.secondary, height: 0.9cm)[
         #set align(center + horizon)
-        #set text(fill: self.colors.tertiary, size: 12pt)
+        #set text(weight: "bold", fill: self.colors.tertiary, size: 14pt)
         #utils.slide-counter.display()
       ],
       block(),
       block[
-        #set align(left + horizon)
-        #set text(size: 13pt)
-        #info.at("footer", default: "")
+        #set text(size: info.footer_size)
+        #let foot_info = info.at("footer", default: ("", "", ""))
+        #v(8pt)
+        #grid(
+          columns: (1fr, 1fr, 1fr),
+          align: (left + horizon, center + horizon, right + horizon),
+          eval(foot_info.at(0), mode: "markup", scope: scope),
+          eval(foot_info.at(1), mode: "markup", scope: scope),
+          eval(foot_info.at(2), mode: "markup", scope: scope),
+        )
       ],
       block(),
     )
 
     // Progress bar
     if self.store.progress-bar {
-      place(bottom + left, float: true,
-        move(dy: 1.05cm, // Bad solution, I know
-          components.progress-bar(
-            height: 3pt,
-            self.colors.primary,
-            white,
-          )
-        )
-      )
+      place(bottom + left, float: true, move(
+        dy: 0.61cm, // Bad solution, I know
+        components.progress-bar(
+          height: 5pt,
+          self.colors.secondary,
+          white,
+        ),
+      ))
     }
   }
-
+  set text(size: size)
+  set par(leading: spacing)
   let self = utils.merge-dicts(self, config-page(
     header: header,
     footer: footer,
@@ -127,7 +146,7 @@
       self.store.default-alignment
     } else {
       alignment
-    }
+    },
   )
 
   touying-slide(self: self, ..args)
@@ -249,7 +268,7 @@
   let body = {
     align(center + horizon)[
       #if title != none [
-        #set text(size: size*1.3, weight: "bold", fill: tc)
+        #set text(size: size * 1.3, weight: "bold", fill: tc)
         #heading(level: 1, outlined: true)[
           #title
         ]
@@ -274,13 +293,13 @@
         #align(center + horizon)[ #text(size: 12pt, fill: tc)[#n] ]
       ]
     },
-    body-indent: 0.6cm
+    body-indent: 0.6cm,
   )
 
   let self = utils.merge-dicts(self, config-page(
     header: none,
     footer: none,
-    fill: c
+    fill: c,
   ))
   touying-slide(self: self, body, ..args)
 })
@@ -294,7 +313,7 @@
   text-color: none,
   ..args,
   body,
-) = touying-slide-wrapper(self => context{
+) = touying-slide-wrapper(self => context {
   let c = color
   let tc = text-color
   if color == none {
@@ -319,24 +338,24 @@
         #align(center + horizon)[ #text(size: 12pt, fill: tc)[#n] ]
       ]
     },
-    body-indent: 0.6cm
+    body-indent: 0.6cm,
   )
   let chapters = query(
     heading.where(
       level: 1,
       outlined: true,
-    )
+    ),
   )
 
   let body = {
     align(left + horizon)[
       #heading(level: 1, outlined: false)[
-        #text(size: size*1.6, weight: "bold")[Table of Contents]
+        #text(size: size * 1.6, weight: "bold")[Table of Contents]
       ]
       #set text(size: size)
       #v(0.8cm)
       #for (idx, chapter) in chapters.enumerate() [
-        #(idx+1). #chapter.body
+        #(idx + 1). #chapter.body
         #v(0.4cm)
       ]
       #body
@@ -352,7 +371,7 @@
       right: 3.5cm,
       top: 2.6cm,
       bottom: 1.6cm,
-    )
+    ),
   ))
   touying-slide(self: self, body, ..args)
 })
@@ -403,7 +422,6 @@
   aspect-ratio: "16-9",
   header: utils.display-current-heading(level: 1),
   font: "Open Sans",
-  institute: [CERN],
   logo: (cms),
   slide-alignment: top,
   progress-bar: true,
@@ -415,16 +433,16 @@
     config-page(
       paper: "presentation-" + aspect-ratio,
       margin: (
-        left: 1.49cm,
-        right: 1.48cm,
-        top: 2.6cm,
-        bottom: 1.6cm,
-      )
+        left: 1cm,
+        right: 1cm,
+        top: 2cm,
+        bottom: 1cm,
+      ),
     ),
     config-store(
       header: header,
       font: font,
-      institute: institute,
+      institute: none,
       logo: logo,
       default-alignment: slide-alignment,
       progress-bar: progress-bar,
@@ -445,9 +463,10 @@
           number-align: right + horizon,
           breakable: true,
         )
-      }
+      },
     ),
-    config-colors( // Exported from official template
+    config-colors(
+      // Exported from official template
       tug: rgb("e4154b"),
       primary: rgb("e4154b"),
       footer: rgb("808080"),
@@ -504,58 +523,59 @@
     config-methods(
       cover: (self: none, body) => hide(body),
       init: (
-      self: none,
-      body,
-    ) => {
-      // TUGraz uses Source Sans Pro, but its a licensed Adobe font
-      set text(size: 20pt, lang: "en", region: "US", font: font)
-      show emph: it => { text(self.colors.primary, it.body) }
-      show cite: it => { text(self.colors.primary, it) }
-      show strong: it => { text(weight: "bold", it.body) }
+        self: none,
+        body,
+      ) => {
+        // TUGraz uses Source Sans Pro, but its a licensed Adobe font
+        set text(size: 20pt, lang: "en", region: "US", font: font)
+        show emph: it => { text(self.colors.primary, it.body) }
+        show cite: it => { text(self.colors.primary, it) }
+        show strong: it => { text(weight: "bold", it.body) }
 
-      // Bibliography
+        // Bibliography
 
-      set bibliography(title: none, style: "ieee")
-      set cite(style: "ieee")
-      show bibliography: set par(spacing: 0.4cm)
-      show bibliography: set grid(align: top + left)
-      show bibliography: set text(17pt)
-      show bibliography: t => {
-        show grid.cell.where(x: 0): set text(fill: self.colors.primary)
-        show grid.cell.where(x: 0): set align(top + left)
-        show link: set text(fill: gray)
-        t
-      }
+        set bibliography(title: none, style: "ieee")
+        set cite(style: "ieee")
+        show bibliography: set par(spacing: 0.4cm)
+        show bibliography: set grid(align: top + left)
+        show bibliography: set text(17pt)
+        show bibliography: t => {
+          show grid.cell.where(x: 0): set text(fill: self.colors.primary)
+          show grid.cell.where(x: 0): set align(top + left)
+          show link: set text(fill: gray)
+          t
+        }
 
-      // Lists & Enums
-      set list(
-        marker: (
-          (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: self.colors.primary))),
-          (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: black))),
-          (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: gray))),
-        ),
-        body-indent: 1.2em,
-      )
-      set enum(
-        numbering: n => {
-          square(stroke: none, fill: self.colors.primary, size: 0.53cm)[
-            #align(center + horizon)[ #text(size: 12pt, fill: white)[#n] ]
-          ]
-        },
-        body-indent: 0.6cm
-      )
+        // Lists & Enums
+        set list(
+          marker: (
+            (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: self.colors.primary))),
+            (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: black))),
+            (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: gray))),
+          ),
+          body-indent: 1.2em,
+        )
+        set enum(
+          numbering: n => {
+            square(stroke: none, fill: self.colors.primary, size: 0.53cm)[
+              #align(center + horizon)[ #text(size: 12pt, fill: white)[#n] ]
+            ]
+          },
+          body-indent: 0.6cm,
+        )
 
-      // Code blocks
-      show: codly-init.with()
-      show raw.where(block: true): set text(size: 13pt)
+        // Code blocks
+        show: codly-init.with()
+        show raw.where(block: true): set text(size: 13pt)
 
-      // Hotfixes, the messy part
+        // Hotfixes, the messy part
 
-      // https://github.com/touying-typ/touying/issues/136
-      set par(spacing: 0.65em)
+        // https://github.com/touying-typ/touying/issues/136
+        set par(spacing: 0.65em)
 
-      body
-    }),
+        body
+      },
+    ),
     ..args,
   )
 
@@ -610,11 +630,11 @@
         column-gutter: 0.7cm,
         row-gutter: 0cm,
         [
-        #rect(
-          fill: if color == none { self.colors.primary } else { color },
-          height: s + top-pad,
-        )
-      ],
+          #rect(
+            fill: if color == none { self.colors.primary } else { color },
+            height: s + top-pad,
+          )
+        ],
         align(horizon, body),
       )
     ]
@@ -654,7 +674,7 @@
   spacing: 0.78em,
   color: none,
   color-body: none,
-  body
+  body,
 ) = [
   #import "@preview/tableau-icons:0.331.0": *
   #touying-fn-wrapper((self: none) => [
@@ -682,7 +702,7 @@
         align(horizon)[#strong(title)]
       } else {
         align(horizon)[
-    #draw-icon(icon, height: 1.2em, baseline: 20%, fill: white) #h(0.2cm) #strong[#title]
+          #draw-icon(icon, height: 1.2em, baseline: 20%, fill: white) #h(0.2cm) #strong[#title]
         ]
       },
       body,
@@ -700,31 +720,41 @@
 ///
 /// -> content
 #let showcase-colors = [
-    #touying-fn-wrapper((self: none) => [
-      #set rect(width: 7.4cm, height: 1.5cm)
-      #set text(fill: white)
-      #set align(center)
-      #grid(columns: 3, rows: 6, column-gutter: 1.8cm, row-gutter: 0.05cm, align: left,
-        rect(fill: self.colors.isec)[isec],
-        rect(fill: self.colors.tug)[tug = main],
-        rect(fill: self.colors.colA)[colA = tugred],
-        rect(fill: self.colors.csbme)[csbme = tugcyan],
-        rect(fill: self.colors.fore)[fore],
-        rect(fill: self.colors.colB)[colB = tugmid],
-        rect(fill: self.colors.crypto)[crypto],
-        rect(fill: self.colors.back)[#text(fill: black)[back]],
-        rect(fill: self.colors.colC)[colC = tuggray],
-        rect(fill: self.colors.system)[system],
-        rect(fill: self.colors.foot)[#text(fill: black)[foot]],
-        rect(fill: self.colors.colD)[colD = tugblue],
-        rect(fill: self.colors.formal)[formal],
-        rect(fill: self.colors.emph)[emph],
-        rect(fill: self.colors.colE)[colE = tuggreen],
-        rect(fill: self.colors.applied)[applied = tugpurple],
-        rect(fill: self.colors.lite)[#text(fill: black)[lite]],
-        rect(fill: self.colors.colF)[colF = tugyellow],
-      )
-    ])
+  #touying-fn-wrapper((self: none) => [
+    #set rect(width: 7.4cm, height: 1.5cm)
+    #set text(fill: white)
+    #set align(center)
+    #grid(
+      columns: 3,
+      rows: 6,
+      column-gutter: 1.8cm,
+      row-gutter: 0.05cm,
+      align: left,
+      rect(fill: self.colors.isec)[isec],
+      rect(fill: self.colors.tug)[tug = main],
+      rect(fill: self.colors.colA)[colA = tugred],
+
+      rect(fill: self.colors.csbme)[csbme = tugcyan],
+      rect(fill: self.colors.fore)[fore],
+      rect(fill: self.colors.colB)[colB = tugmid],
+
+      rect(fill: self.colors.crypto)[crypto],
+      rect(fill: self.colors.back)[#text(fill: black)[back]],
+      rect(fill: self.colors.colC)[colC = tuggray],
+
+      rect(fill: self.colors.system)[system],
+      rect(fill: self.colors.foot)[#text(fill: black)[foot]],
+      rect(fill: self.colors.colD)[colD = tugblue],
+
+      rect(fill: self.colors.formal)[formal],
+      rect(fill: self.colors.emph)[emph],
+      rect(fill: self.colors.colE)[colE = tuggreen],
+
+      rect(fill: self.colors.applied)[applied = tugpurple],
+      rect(fill: self.colors.lite)[#text(fill: black)[lite]],
+      rect(fill: self.colors.colF)[colF = tugyellow],
+    )
+  ])
 ]
 
 //vim:tabstop=2 softtabstop=2 shiftwidth=2 noexpandtab colorcolumn=81

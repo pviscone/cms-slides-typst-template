@@ -18,8 +18,8 @@
 #toc-slide()[]
 
 //slide title is a heading level 2, you can change with head: 1
-#slide(title: [Introduction])[
-  #lorem(100)
+#slide(title: [Introduction], size:16pt, spacing:0.5em)[
+    #lorem(290)
 ]
 
 //blank-slide title is a heading level 1, it will appear in the TOC

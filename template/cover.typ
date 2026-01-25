@@ -124,7 +124,10 @@
     place(bottom)[
       #block(width: 85%)[
         #set text(size: extra_multiplier * 20pt)
-        #info.extra
+        *#info.conference*\
+        #info.location\
+        #info.date
+
       ]
     ]
 
