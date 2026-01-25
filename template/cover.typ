@@ -121,10 +121,11 @@
       ]
     ]
 
-    v(2.6cm)
-    block(width: 85%)[
-      #set text(size: extra_multiplier * 20pt)
-      #info.extra
+    place(bottom)[
+      #block(width: 85%)[
+        #set text(size: extra_multiplier * 20pt)
+        #info.extra
+      ]
     ]
 
     if (

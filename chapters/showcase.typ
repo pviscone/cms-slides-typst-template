@@ -42,13 +42,15 @@
 #blank-slide(size:20pt)[
   == TODO
   #align(left)[
-  - change itemize bullet to color tertiary in blank slide
-  - show code block and text box
-  - what's wrong with references? why starts  at 26?
+  - Change itemize bullet to color tertiary in blank slide
+  - Show code block and text box
+  - what's wrong with references? Why does it start at 26?
   - Create "backup" slides (and disable progress bar on them)
   - Create backup cover page
   - use pinit example
   - Show qr code
-  - create function to add black box around images
+  - Create function to add black box around images
+  - Cover page:
+    - Change the authors to a dictionary instead of separate lists for author and institutions
   ]
 ]
