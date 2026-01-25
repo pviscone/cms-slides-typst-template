@@ -52,5 +52,6 @@
   - Create function to add black box around images
   - Cover page:
     - Change the authors to a dictionary instead of separate lists for author and institutions
+  - Change font
   ]
 ]
