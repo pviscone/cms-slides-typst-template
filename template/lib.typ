@@ -65,18 +65,34 @@
   // ---------------------------------------------------------------------------
   // [ ] Slide Title                                                [ ] Logo [ ]
   // ---------------------------------------------------------------------------
+  //I made a mess but it works fine with 3 logos. To be improved in the future
   let header(self) = {
     // Slide Title: if the user overrides the title of a certain slide, use it
     let hdr = if title != auto { title } else { "" }
-
+    let height = 1.4cm
     show heading: set text(size: 24pt, weight: "semibold")
     place(top)[
-      #box(fill: self.colors.primary, height: 1.4cm, width: 100%)[
-        #v(12pt)
+      #box(fill: self.colors.primary, height: height, width: 100%)[
+        #v(-1pt)
         #heading(level: head, outlined: outlined, [
           #set text(fill: self.colors.tertiary)
-          #h(15pt)
-          #hdr
+          #v(7pt)
+          #grid(
+            columns: (1fr, 0.2fr),
+            align: (left + horizon, right + horizon),
+            [#h(14pt)#hdr],
+            [
+              #v(-3pt)
+              #figure(
+                grid(
+                  columns: (1fr,) * self.store.logo.len(),
+                  //rows: auto,
+                  column-gutter: -9.5cm,
+                  ..self.store.logo.map(logo => image(logo, height: height*0.85)),
+                ),
+              )
+            ],
+          )
         ])
       ]
     ]

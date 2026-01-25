@@ -4,7 +4,7 @@
   aspect-ratio: "16-9",
   slide-alignment: top,
   progress-bar: true,
-  logo: (cms, cern_blue, uzh_compact_black),
+  logo: (cern_white, uzh_compact_white, cms_white),
   config-info(
     title: [Long Paper Title with One to Three Lines],
     subtitle: [An optional short subtitle],
