@@ -15,13 +15,19 @@
 // #color-block(title, body)
 // #icon-block(title, icon, body)
 
-#blank-slide()[
-  Understand how to add table of contents
+#toc-slide()[]
+
+
+#slide(title: [Introduction], outlined: false)[
+  #lorem(100)
+]
+
+#blank-slide(title: [First Chapter])[
+  Show example and presets of multiple layouts.
 ]
 
 
-
-#slide(title: [First Slide])[
+#slide(title: [First Subsec])[
   #quote-block[
     Have you ever heard about Typst?! @typst
   ]
@@ -29,20 +35,13 @@
   #note("This will show on pdfpc speaker notes ;)")
 ]
 
-#blank-slide()[
-  Show example and presets of multiple layouts.
-]
 
 
-#blank-slide()[
-  = Section slide
-  Understand how to add footer
-]
+#blank-slide(title: [Second Chapter])[]
 
 #blank-slide(size:20pt)[
   == TODO
   #align(left)[
-  - Change itemize bullet to color tertiary in blank slide
   - Show code block and text box
   - what's wrong with references? Why does it start at 26?
   - Create "backup" slides (and disable progress bar on them)
@@ -51,5 +50,6 @@
   - Show qr code
   - Create function to add black box around images
   - Change font
+  - Understand how to add footer
   ]
 ]

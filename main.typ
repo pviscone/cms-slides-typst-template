@@ -34,7 +34,8 @@
 // === Available slides ===
 //
 // #title-slide()
-// #blank-slide()
+// #toc-slide()
+// #blank-slide(title)
 // #slide(title)
 //
 // === Available macros ===

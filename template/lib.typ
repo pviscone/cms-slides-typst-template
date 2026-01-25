@@ -54,11 +54,12 @@
   title: auto,
   alignment: none,
   outlined: true,
+  head: 2,
   ..args,
 ) = touying-slide-wrapper(self => {
   let info = self.info + args.named()
 
-  // Header:
+  // Header:slide
   // ---------------------------------------------------------------------------
   // [ ] Slide Title                                                [ ] Logo [ ]
   // ---------------------------------------------------------------------------
@@ -71,7 +72,7 @@
     grid(
       columns: (self.page.margin.left, 1fr, 1cm, auto, 1.2cm),
       block(),
-      heading(level: 1, outlined: outlined, hdr),
+      heading(level: head, outlined: outlined, hdr),
       block(),
       move(dy: -0.31cm, institute-logo(self)),
       block(),
@@ -227,7 +228,8 @@
 ///
 /// -> content
 #let blank-slide(
-  size: 30pt,
+  title: none,
+  size: 25pt,
   weight: "regular",
   color: none,
   text-color: none,
@@ -246,6 +248,13 @@
   set text(fill: tc, size: size, weight: weight)
   let body = {
     align(center + horizon)[
+      #if title != none [
+        #set text(size: size*1.3, weight: "bold", fill: tc)
+        #heading(level: 1, outlined: true)[
+          #title
+        ]
+        #v(1.2cm)
+      ]
       #body
     ]
   }
@@ -275,6 +284,79 @@
   ))
   touying-slide(self: self, body, ..args)
 })
+
+
+
+#let toc-slide(
+  size: 20pt,
+  weight: "regular",
+  color: none,
+  text-color: none,
+  ..args,
+  body,
+) = touying-slide-wrapper(self => context{
+  let c = color
+  let tc = text-color
+  if color == none {
+    c = self.colors.primary
+  }
+  if text-color == none {
+    tc = self.colors.tertiary
+  }
+  set text(fill: tc, size: size, weight: weight)
+  set list(
+    marker: (
+      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: tc))),
+      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: tc))),
+      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: tc))),
+    ),
+    body-indent: 1.2em,
+  )
+
+  set enum(
+    numbering: n => {
+      square(stroke: none, fill: tc, size: 0.53cm)[
+        #align(center + horizon)[ #text(size: 12pt, fill: tc)[#n] ]
+      ]
+    },
+    body-indent: 0.6cm
+  )
+  let chapters = query(
+    heading.where(
+      level: 1,
+      outlined: true,
+    )
+  )
+
+  let body = {
+    align(left + horizon)[
+      #heading(level: 1, outlined: false)[
+        #text(size: size*1.6, weight: "bold")[Table of Contents]
+      ]
+      #set text(size: size)
+      #v(0.8cm)
+      #for (idx, chapter) in chapters.enumerate() [
+        #(idx+1). #chapter.body
+        #v(0.4cm)
+      ]
+      #body
+    ]
+  }
+
+  let self = utils.merge-dicts(self, config-page(
+    header: none,
+    footer: none,
+    fill: c,
+    margin: (
+      left: 3.5cm,
+      right: 3.5cm,
+      top: 2.6cm,
+      bottom: 1.6cm,
+    )
+  ))
+  touying-slide(self: self, body, ..args)
+})
+
 
 // -----------------------------------------------------------------------------
 // Main Function
