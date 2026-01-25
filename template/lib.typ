@@ -229,11 +229,21 @@
 #let blank-slide(
   size: 30pt,
   weight: "regular",
+  color: none,
+  text-color: none,
   ..args,
   body,
 ) = touying-slide-wrapper(self => {
+  let c = color
+  let tc = text-color
+  if color == none {
+    c = self.colors.primary
+  }
+  if text-color == none {
+    tc = self.colors.tertiary
+  }
 
-  set text(fill: self.colors.tertiary, size: size, weight: weight)
+  set text(fill: tc, size: size, weight: weight)
   let body = {
     align(center + horizon)[
       #body
@@ -242,17 +252,17 @@
 
   set list(
     marker: (
-      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: self.colors.tertiary))),
-      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: self.colors.tertiary))),
-      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: self.colors.tertiary))),
+      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: tc))),
+      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: tc))),
+      (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: tc))),
     ),
     body-indent: 1.2em,
   )
 
   set enum(
     numbering: n => {
-      square(stroke: none, fill: self.colors.tertiary, size: 0.53cm)[
-        #align(center + horizon)[ #text(size: 12pt, fill: self.colors.tertiary)[#n] ]
+      square(stroke: none, fill: tc, size: 0.53cm)[
+        #align(center + horizon)[ #text(size: 12pt, fill: tc)[#n] ]
       ]
     },
     body-indent: 0.6cm
@@ -261,7 +271,7 @@
   let self = utils.merge-dicts(self, config-page(
     header: none,
     footer: none,
-    fill: self.colors.primary
+    fill: c
   ))
   touying-slide(self: self, body, ..args)
 })
