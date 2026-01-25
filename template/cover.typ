@@ -7,8 +7,8 @@
   title_multiplier: 1.0,
   subtitle_multiplier: 1.0,
   author_multiplier: 1.0,
-  logos_multiplier: 1.0,
   extra_multiplier: 1.0,
+  //logos_multiplier: 1.0,
   ..args,
 ) = touying-slide-wrapper(self => {
   let info = self.info + args.named()
@@ -38,10 +38,8 @@
     */
     set page(background: context [
 
-        #image("assets/cms_cover.png", height: page.height +10pt)
-        ]
-      )
-
+      #image("assets/cms_cover.png", height: page.height + 10pt)
+    ])
 
 
     v(-0.5cm)
@@ -92,11 +90,11 @@
     block(width: 85%)[
       #set text(size: author_multiplier * 20pt)
       #let idx = 0
-      #for (author,_) in info.authors {
+      #for (author, _) in info.authors {
         if (idx != info.authors.len() - 1) [
-          #eval(author , mode: "markup")#for (i, num) in institute_numbers.at(idx).enumerate() {
+          #eval(author, mode: "markup")#for (i, num) in institute_numbers.at(idx).enumerate() {
             $attach("", t: #str(num))$
-            if (i != institute_numbers.at(idx).len() - 1 ) { super(",") }
+            if (i != institute_numbers.at(idx).len() - 1) { super(",") }
           },#h(0.1em)
         ] else [
           #eval(author, mode: "markup")#for (i, num) in institute_numbers.at(-1).enumerate() {

@@ -514,8 +514,9 @@
       show strong: it => { text(weight: "bold", it.body) }
 
       // Bibliography
+
       set bibliography(title: none, style: "ieee")
-      set cite(style: "alphanumeric")
+      set cite(style: "ieee")
       show bibliography: set par(spacing: 0.4cm)
       show bibliography: set grid(align: top + left)
       show bibliography: set text(17pt)

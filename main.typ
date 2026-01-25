@@ -56,7 +56,6 @@
 #title-slide(title_multiplier: 1.0,
             subtitle_multiplier: 1.0,
             author_multiplier: 1.0,
-            logos_multiplier: 1.0,
             extra_multiplier: 1.0)
 
 #include "chapters/showcase.typ"

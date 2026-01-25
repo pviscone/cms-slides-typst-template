@@ -4,9 +4,8 @@
 // === Available slides ===
 //
 // #title-slide()
-// #standout-slide(title)
-// #section-slide(title,subtitle)
-// #blank-slide()
+// #toc-slide()
+// #blank-slide(title)
 // #slide(title)
 //
 // === Available macros ===
@@ -15,17 +14,18 @@
 // #color-block(title, body)
 // #icon-block(title, icon, body)
 
+//All the headings level 1 marked as outlined will appear in the TOC
 #toc-slide()[]
 
-
-#slide(title: [Introduction], outlined: false)[
+//slide title is a heading level 2, you can change with head: 1
+#slide(title: [Introduction])[
   #lorem(100)
 ]
 
+//blank-slide title is a heading level 1, it will appear in the TOC
 #blank-slide(title: [First Chapter])[
   Show example and presets of multiple layouts.
 ]
-
 
 #slide(title: [First Subsec])[
   #quote-block[
@@ -35,21 +35,19 @@
   #note("This will show on pdfpc speaker notes ;)")
 ]
 
-
-
 #blank-slide(title: [Second Chapter])[]
 
-#blank-slide(size:20pt)[
+#blank-slide()[
   == TODO
   #align(left)[
-  - Show code block and text box
-  - what's wrong with references? Why does it start at 26?
-  - Create "backup" slides (and disable progress bar on them)
-  - Create backup cover page
-  - use pinit example
-  - Show qr code
-  - Create function to add black box around images
-  - Change font
-  - Understand how to add footer
+    - Show code block and text box
+    - Show lists, enums and checkboxes
+    - Create "backup" slides (and disable progress bar on them)
+    - Create backup cover page
+    - use pinit example
+    - Show qr code
+    - Create function to add black box around images
+    - Change font
+    - Understand how to add footer
   ]
 ]
