@@ -73,9 +73,9 @@
     let institutes = ()
     let institute_numbers = ()
     let temp_idx = 1
-    for person in info.institution {
+    for (person, insts) in info.authors {
       let person_institute_numbers = ()
-      for instit in person {
+      for instit in insts {
         if not institutes.contains(instit) {
           institutes.push(instit)
           person_institute_numbers.push(temp_idx)
@@ -87,38 +87,40 @@
       }
       institute_numbers.push(person_institute_numbers)
     }
+
+
     block(width: 85%)[
       #set text(size: author_multiplier * 20pt)
-      #if type(info.authors) == array [
-        #for (idx, author) in info.authors.enumerate() [
-          #if (idx != info.authors.len() - 1) [
-            #author#for (i, num) in institute_numbers.at(idx).enumerate() {
-              $attach("", t: #str(num))$
-              if (i != institute_numbers.at(idx).len() - 1 ) { super(",") }
-            },#h(0.1em)
-          ] else [
-            #author#for (i, num) in institute_numbers.at(-1).enumerate() {
-              $attach("", t: #str(num))$
-              if (i != institute_numbers.at(idx).len() - 1) {
-                super(",")
-              }
+      #let idx = 0
+      #for (author,_) in info.authors {
+        if (idx != info.authors.len() - 1) [
+          #eval(author , mode: "markup")#for (i, num) in institute_numbers.at(idx).enumerate() {
+            $attach("", t: #str(num))$
+            if (i != institute_numbers.at(idx).len() - 1 ) { super(",") }
+          },#h(0.1em)
+        ] else [
+          #eval(author, mode: "markup")#for (i, num) in institute_numbers.at(-1).enumerate() {
+            $attach("", t: #str(num))$
+            if (i != institute_numbers.at(idx).len() - 1) {
+              super(",")
             }
-          ]
+          }
         ]
-      ] else [
-        #info.authors
-      ]
+        idx = idx + 1
+      }
     ]
 
     v(1cm)
 
     // print institutes
     block(width: 85%)[
-      #for (idx, instit) in institutes.enumerate() [
-        #text(size: author_multiplier * 20pt)[
+      #let idx = 0
+      #for (_, instit) in institutes.enumerate() {
+        text(size: author_multiplier * 20pt)[
           $attach("", t: #str(idx + 1))$#instit#if (idx != institutes.len() - 1) { "," }
         ]
-      ]
+        idx = idx + 1
+      }
     ]
 
     place(bottom)[

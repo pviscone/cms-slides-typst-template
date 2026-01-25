@@ -1,5 +1,6 @@
 #import "template/lib.typ": *
 
+
 #show: definitely-not-isec-theme.with(
   aspect-ratio: "16-9",
   slide-alignment: top,
@@ -8,8 +9,12 @@
   config-info(
     title: [Long Paper Title with One to Three Lines],
     subtitle: [An optional short subtitle],
-    institution: (("CERN", "UZH"), ("CERN",), ("CERN", "UZH"), ()),
-    authors: ([*Author First*], [Author Second], [Author Third], [\ on behalf of the CMS Collaboration]),
+    authors: (
+      "*Author First*": ("CERN", "UZH"),
+      "Author Second": ("CERN", "UZH"),
+      "Author Thirds": ("CERN",),
+      "\ on behalf of the CMS Collaboration": (),
+    ),
     extra: [*Conference 2077*\ New Tokyo\ 29-31 February 2077],
     footer: [First Author, Second Author, Third Author],
     download-qr: "",
