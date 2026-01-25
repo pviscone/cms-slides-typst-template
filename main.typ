@@ -1,6 +1,5 @@
 #import "template/lib.typ": *
 
-
 #show: definitely-not-isec-theme.with(
   aspect-ratio: "16-9",
   slide-alignment: top,
@@ -10,8 +9,8 @@
     title: [Long Paper Title with One to Three Lines],
     subtitle: [An optional short subtitle],
     authors: (
-      "*Author First*": ("CERN", "UZH"),
-      "Author Second": ("CERN", "UZH"),
+      "*Piero Viscone*": ("CERN", "University of Zürich"),
+      "Author Second": ("CERN", "University of Zürich"),
       "Author Thirds": ("CERN",),
       "\ on behalf of the CMS Collaboration": (),
     ),
@@ -31,30 +30,6 @@
     tertiary: rgb("FFFFFF"),
   ),
 )
-
-// -------------------------------[[ CUT HERE ]]--------------------------------
-//
-// === Available slides ===
-//
-// #title-slide()
-// #toc-slide()
-// #blank-slide(title)
-// #slide(title)
-//
-// === Available macros ===
-//
-// #quote-block(body)
-// #color-block(title, body)
-// #icon-block(title, icon, body)
-//
-// === Presenting with pdfpc ===
-//
-// Use #note("...") to add pdfpc presenter annotations on a specific slide
-// Before presenting, export all notes to a pdfpc file:
-// $ typst query slides.typ --field value --one "<pdfpc-file>" > slides.pdfpc
-// $ pdfpc slides.pdf
-//
-// -------------------------------[[ CUT HERE ]]--------------------------------
 
 #title-slide(title_multiplier: 1.0, subtitle_multiplier: 1.0, author_multiplier: 1.0, extra_multiplier: 1.0)
 

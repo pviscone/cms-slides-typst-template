@@ -13,6 +13,16 @@
 // #quote-block(body)
 // #color-block(title, body)
 // #icon-block(title, icon, body)
+//
+// === Presenting with pdfpc ===
+//
+// Use #note("...") to add pdfpc presenter annotations on a specific slide
+// Before presenting, export all notes to a pdfpc file:
+// $ typst query slides.typ --field value --one "<pdfpc-file>" > slides.pdfpc
+// $ pdfpc slides.pdf
+//
+// ------------------------------
+
 
 //All the headings level 1 marked as outlined will appear in the TOC
 #toc-slide()[]
@@ -48,6 +58,6 @@
     - Show qr code
     - Create function to add black box around images
     - Change font
-    - Understand how to add footer
+    - Understand how to add foot notes
   ]
 ]

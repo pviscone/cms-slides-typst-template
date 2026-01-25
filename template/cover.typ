@@ -44,7 +44,7 @@
 
     v(-0.5cm)
 
-    block(width: 85%)[
+    block(width: 70%)[
       #let title = text(size: title_multiplier * 38pt, weight: "bold", fill: self.colors.primary)[
         #set par(leading: 0.3em)
         #info.at(
@@ -59,7 +59,7 @@
 
     v(0.6cm)
 
-    block(width: 85%)[
+    block(width: 70%)[
       #text(
         size: subtitle_multiplier * 24pt,
         fill: self.colors.secondary,
@@ -87,7 +87,7 @@
     }
 
 
-    block(width: 85%)[
+    block(width: 70%)[
       #set text(size: author_multiplier * 20pt)
       #let idx = 0
       #for (author, _) in info.authors {
@@ -111,7 +111,7 @@
     v(1cm)
 
     // print institutes
-    block(width: 85%)[
+    block(width: 70%)[
       #let idx = 0
       #for (_, instit) in institutes.enumerate() {
         text(size: author_multiplier * 20pt)[
@@ -122,7 +122,7 @@
     ]
 
     place(bottom)[
-      #block(width: 85%)[
+      #block(width: 70%)[
         #set text(size: extra_multiplier * 20pt)
         *#info.conference*\
         #info.location\
