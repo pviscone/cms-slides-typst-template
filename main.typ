@@ -19,7 +19,7 @@
   ),
   config-colors(
     primary: rgb("1B4587"),
-    secondary: rgb("1654B7"),
+    secondary: rgb("F75C2F"),
     tertiary: rgb("FFFFFF"),
   ),
 )
