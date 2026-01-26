@@ -7,6 +7,7 @@
 // #toc-slide()
 // #blank-slide(title)
 // #slide(title)
+// #backup-cover()
 //
 // === Available macros ===
 //
@@ -28,8 +29,8 @@
 #toc-slide()[]
 
 //slide title is a heading level 2, you can change with head: 1
-#slide(title: [Introduction], size:16pt, spacing:0.5em)[
-    #lorem(290)
+#slide(title: [Introduction], size: 16pt, spacing: 0.5em)[
+  #lorem(290)
 ]
 
 //blank-slide title is a heading level 1, it will appear in the TOC
@@ -47,17 +48,29 @@
 
 #blank-slide(title: [Second Chapter])[]
 
-#blank-slide()[
-  == TODO
+#slide(title: [TODO])[
   #align(left)[
     - Show code block and text box
     - Show lists, enums and checkboxes
-    - Create "backup" slides (and disable progress bar on them)
-    - Create backup cover page
     - use pinit example
     - Show qr code
     - Create function to add black box around images
     - Change font
     - Understand how to add foot notes
+    - Fix logos in header
   ]
+]
+#slide(title: [Conclusions])[
+  Conclusions
+]
+
+// Backup-cover is where the progress bar finishes
+#backup-cover()
+
+#slide(title: [Backup slide 1])[
+  This is a backup slide.
+]
+
+#slide(title: [Backup slide 2])[
+  This is another backup slide.
 ]

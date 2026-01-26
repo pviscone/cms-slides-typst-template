@@ -16,6 +16,12 @@
 #import "@preview/showybox:2.0.4": showybox
 
 // -----------------------------------------------------------------------------
+// Appendix state
+// -----------------------------------------------------------------------------
+
+#let appendix-state = state("appendix-mode", false)
+
+// -----------------------------------------------------------------------------
 // General Config
 // -----------------------------------------------------------------------------
 
@@ -58,7 +64,8 @@
   size: 20pt,
   spacing: 0.65em,
   ..args,
-) = touying-slide-wrapper(self => {
+) = touying-slide-wrapper(self => context {
+  let appendix = appendix-state.get()
   let info = self.info + args.named()
 
   // Header:slide
@@ -88,7 +95,7 @@
                   columns: (1fr,) * self.store.logo.len(),
                   //rows: auto,
                   column-gutter: -9.5cm,
-                  ..self.store.logo.map(logo => image(logo, height: height*0.85)),
+                  ..self.store.logo.map(logo => image(logo, height: height * 0.85)),
                 ),
               )
             ],
@@ -138,6 +145,7 @@
       block(),
     )
 
+
     // Progress bar
     if self.store.progress-bar {
       place(bottom + left, float: true, move(
@@ -152,6 +160,12 @@
   }
   set text(size: size)
   set par(leading: spacing)
+  let self = utils.merge-dicts(
+    self,
+    config-common(
+      appendix: appendix,
+    ),
+  )
   let self = utils.merge-dicts(self, config-page(
     header: header,
     footer: footer,
@@ -161,7 +175,7 @@
     if alignment == none {
       self.store.default-alignment
     } else {
-      alignment
+      alignmentcounter
     },
   )
 
@@ -191,7 +205,8 @@
 #let standout-slide(
   title: none,
   ..args,
-) = touying-slide-wrapper(self => {
+) = touying-slide-wrapper(self => context {
+  let appendix = appendix-state.get()
   let body = {
     set align(center + horizon)
     set text(size: 28pt)
@@ -202,6 +217,12 @@
     }
   }
 
+  let self = utils.merge-dicts(
+    self,
+    config-common(
+      appendix: appendix,
+    ),
+  )
   let self = utils.merge-dicts(self, config-page(
     header: none,
     footer: none,
@@ -228,7 +249,8 @@
   title: none,
   subtitle: none,
   ..args,
-) = touying-slide-wrapper(self => {
+) = touying-slide-wrapper(self => context {
+  let appendix = appendix-state.get()
   let body = {
     align(center + horizon)[
       #move(dy: -0.4cm)[
@@ -243,6 +265,12 @@
     ]
   }
 
+  let self = utils.merge-dicts(
+    self,
+    config-common(
+      appendix: appendix,
+    ),
+  )
   let self = utils.merge-dicts(self, config-page(
     header: none,
     footer: none,
@@ -270,7 +298,8 @@
   text-color: none,
   ..args,
   body,
-) = touying-slide-wrapper(self => {
+) = touying-slide-wrapper(self => context {
+  let appendix = appendix-state.get()
   let c = color
   let tc = text-color
   if color == none {
@@ -312,6 +341,12 @@
     body-indent: 0.6cm,
   )
 
+  let self = utils.merge-dicts(
+    self,
+    config-common(
+      appendix: appendix,
+    ),
+  )
   let self = utils.merge-dicts(self, config-page(
     header: none,
     footer: none,
@@ -330,6 +365,7 @@
   ..args,
   body,
 ) = touying-slide-wrapper(self => context {
+  let appendix = appendix-state.get()
   let c = color
   let tc = text-color
   if color == none {
@@ -378,6 +414,12 @@
     ]
   }
 
+  let self = utils.merge-dicts(
+    self,
+    config-common(
+      appendix: appendix,
+    ),
+  )
   let self = utils.merge-dicts(self, config-page(
     header: none,
     footer: none,
@@ -393,6 +435,47 @@
 })
 
 
+#let backup-cover(
+  title: none,
+  size: 80pt,
+  color: none,
+  text-color: none,
+  background: "/template/assets/backup_cover.png",
+  ..args,
+) = touying-slide-wrapper(self => context {
+  appendix-state.update(_ => true)
+
+  set page(background: context [
+    #image(background, height: page.height)
+  ])
+  let c = color
+  let tc = text-color
+  if color == none {
+    c = self.colors.primary
+  }
+  if text-color == none {
+    tc = self.colors.tertiary
+  }
+  let body = {
+    align(center + horizon)[
+      #set text(size: size, weight: "bold", fill: tc, font: "Verdana", stroke: black + 3pt)
+      *BACKUP*
+    ]
+  }
+
+  let self = utils.merge-dicts(
+    self,
+    config-common(
+      appendix: true,
+    ),
+  )
+  let self = utils.merge-dicts(self, config-page(
+    header: none,
+    footer: none,
+    fill: c,
+  ))
+  touying-slide(self: self, body, ..args)
+})
 // -----------------------------------------------------------------------------
 // Main Function
 // -----------------------------------------------------------------------------
