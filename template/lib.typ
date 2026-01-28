@@ -77,32 +77,35 @@
     // Slide Title: if the user overrides the title of a certain slide, use it
     let hdr = if title != auto { title } else { "" }
     let height = 1.4cm
-    show heading: set text(size: 24pt, weight: "semibold")
-    place(top)[
-      #box(fill: self.colors.primary, height: height, width: 100%)[
-        #v(-1pt)
-        #heading(level: head, outlined: outlined, [
-          #set text(fill: self.colors.tertiary)
-          #v(7pt)
+    show heading: set text(size: 24pt, weight: "bold")
+
+    rect(fill: self.colors.primary, height: height, width: 100%,
+      [
+        #place(horizon)[
           #grid(
-            columns: (1fr, 0.2fr),
+            columns: (1fr, 1fr),
             align: (left + horizon, right + horizon),
-            [#h(14pt)#hdr],
             [
-              #v(-3pt)
-              #figure(
-                grid(
-                  columns: (1fr,) * self.store.logo.len(),
-                  //rows: auto,
-                  column-gutter: -9.5cm,
-                  ..self.store.logo.map(logo => image(logo, height: height * 0.85)),
-                ),
+              #heading(
+              level: head,
+              outlined: outlined,
+              [
+                #set text(fill: self.colors.tertiary)
+                #h(7pt)#hdr
+              ],
               )
             ],
+            [
+              #grid(
+                columns: (1fr,) * self.store.logo.len(),
+                column-gutter: -14cm + height * self.store.logo.len(),
+                ..self.store.logo.map(logo => image(logo, height: height * 0.85)),
+              )
+            ]
           )
-        ])
+        ]
       ]
-    ]
+    )
   }
 
   // Footer:
@@ -402,7 +405,8 @@
   let body = {
     align(left + horizon)[
       #heading(level: 1, outlined: false)[
-        #text(size: size * 1.6, weight: "bold")[Table of Contents]
+        #h(-0.8cm)
+        #text(size: size * 1.6, weight: "bold")[Outline]
       ]
       #set text(size: size)
       #v(0.8cm)

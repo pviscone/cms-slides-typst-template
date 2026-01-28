@@ -57,7 +57,6 @@
     - Create function to add black box around images
     - Change font
     - Understand how to add foot notes
-    - Fix logos in header
   ]
 ]
 #slide(title: [Conclusions])[

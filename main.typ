@@ -2,6 +2,7 @@
 
 #show: definitely-not-isec-theme.with(
   aspect-ratio: "16-9",
+  font: "Open Sans",
   slide-alignment: top,
   progress-bar: true,
   logo: (cern_white, uzh_compact_white, cms_white),
@@ -19,13 +20,12 @@
     date: "29-31 February 2077",
     footer: ("Piero Viscone", "#title", "#conference"),
     footer_size: 10pt,
-    download-qr: "",
   ),
   config-common(
     handout: false,
   ),
   config-colors(
-    primary: rgb("1B4587"),
+    primary: rgb("2651a8"),
     secondary: rgb("F75C2F"),
     tertiary: rgb("FFFFFF"),
   ),
