@@ -7,8 +7,8 @@
   progress-bar: true,
   logo: (cern_white, uzh_compact_white, cms_white),
   config-info(
-    title: [Long Paper Title with One to Three Lines],
-    subtitle: [An optional short subtitle],
+    title: [Typst meets CMS: Creating Presentation Slides with Typst],
+    subtitle: [...and let beamer retire!!!],
     authors: (
       "*Piero Viscone*": ("CERN", "University of Zürich"),
       "Author Second": ("CERN", "University of Zürich"),
@@ -31,7 +31,7 @@
   ),
 )
 
-#title-slide(title_multiplier: 1.0, subtitle_multiplier: 1.0, author_multiplier: 1.0, extra_multiplier: 1.0)
+#title-slide(title_multiplier: 0.9, subtitle_multiplier: 1.0, author_multiplier: 1.0, extra_multiplier: 1.0)
 
 #include "chapters/showcase.typ"
 

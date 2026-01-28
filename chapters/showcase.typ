@@ -34,11 +34,27 @@
 ]
 
 //blank-slide title is a heading level 1, it will appear in the TOC
-#blank-slide(title: [First Chapter])[
+#blank-slide(title: [Layout showcase])[
   Show example and presets of multiple layouts.
 ]
 
-#slide(title: [First Subsec])[
+#slide(title: [Two columns])[
+  #text(size: 14pt)[
+    #lorem(100)
+  ]
+
+][
+  #place(horizon)[
+    #figure(
+      image("/template/assets/backup_cover.png"),
+      caption: [The CMS event display],
+    )
+  ]
+
+
+]
+
+#slide(title: [Two columns])[
   #quote-block[
     Have you ever heard about Typst?! @typst
   ]
@@ -53,10 +69,11 @@
     - Show code block and text box
     - Show lists, enums and checkboxes
     - use pinit example
-    - Show qr code
+    - Show links
     - Create function to add black box around images
     - Change font
     - Understand how to add foot notes
+    - Add a reference to a backup slide
   ]
 ]
 #slide(title: [Conclusions])[

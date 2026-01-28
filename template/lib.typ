@@ -79,33 +79,31 @@
     let height = 1.4cm
     show heading: set text(size: 24pt, weight: "bold")
 
-    rect(fill: self.colors.primary, height: height, width: 100%,
-      [
-        #place(horizon)[
-          #grid(
-            columns: (1fr, 1fr),
-            align: (left + horizon, right + horizon),
-            [
-              #heading(
+    rect(fill: self.colors.primary, height: height, width: 100%, [
+      #place(horizon)[
+        #grid(
+          columns: (1fr, 1fr),
+          align: (left + horizon, right + horizon),
+          [
+            #heading(
               level: head,
               outlined: outlined,
               [
                 #set text(fill: self.colors.tertiary)
                 #h(7pt)#hdr
               ],
-              )
-            ],
-            [
-              #grid(
-                columns: (1fr,) * self.store.logo.len(),
-                column-gutter: -14cm + height * self.store.logo.len(),
-                ..self.store.logo.map(logo => image(logo, height: height * 0.85)),
-              )
-            ]
-          )
-        ]
+            )
+          ],
+          [
+            #grid(
+              columns: (1fr,) * self.store.logo.len(),
+              column-gutter: -14cm + height * self.store.logo.len(),
+              ..self.store.logo.map(logo => image(logo, height: height * 0.85)),
+            )
+          ],
+        )
       ]
-    )
+    ])
   }
 
   // Footer:
@@ -124,34 +122,47 @@
       location: info.at("location", default: ""),
       date: info.at("date", default: ""),
     )
-    v(-0.15cm)
-    grid(
-      columns: (self.page.margin.bottom - 0.15%, 0.8%, auto, 0.5cm),
-      block(fill: self.colors.secondary, height: 0.9cm)[
-        #set align(center + horizon)
-        #set text(weight: "bold", fill: self.colors.tertiary, size: 14pt)
-        #utils.slide-counter.display()
-      ],
-      block(),
-      block[
-        #set text(size: info.footer_size)
-        #let foot_info = info.at("footer", default: ("", "", ""))
-        #v(8pt)
-        #grid(
-          columns: (1fr, 1fr, 1fr),
-          align: (left + horizon, center + horizon, right + horizon),
-          eval(foot_info.at(0), mode: "markup", scope: scope),
-          eval(foot_info.at(1), mode: "markup", scope: scope),
-          eval(foot_info.at(2), mode: "markup", scope: scope),
-        )
-      ],
-      block(),
+    [ #set align(center + bottom)
+      #set text(size: info.footer_size)
+      #let foot_info = info.at("footer", default: ("", "", ""))
+      #rect(fill: white, height: 0.9cm, width: 100%, [
+        #place(horizon+left)[
+          #grid(
+            columns: (1fr, 1fr, 1fr),
+            align: (left+horizon, center+horizon, right+horizon),
+            column-gutter: 0cm,
+            [
+              #set align(left + horizon)
+              #h(-5pt)
+              #box(fill: self.colors.secondary, height: 0.9cm, width: 0.9cm)[
+                #set align(center + horizon)
+                #set text(weight: "bold", fill: self.colors.tertiary, size: 14pt)
+                #utils.slide-counter.display()
+              ]
+              #place(horizon+left)[
+                #h(26pt)
+                #eval(foot_info.at(0), mode: "markup", scope: scope)
+              ]
+            ],[
+              #place(horizon)[
+                #eval(foot_info.at(1), mode: "markup", scope: scope)
+              ]
+            ],[
+              #place(horizon+right)[
+                #eval(foot_info.at(2), mode: "markup", scope: scope)
+                #h(5pt)
+              ]
+            ]
+          )
+        ]
+      ]
     )
+  ]
 
 
     // Progress bar
     if self.store.progress-bar {
-      place(bottom + left, float: true, move(
+      place(bottom + left, float: false, move(
         dy: 0.61cm, // Bad solution, I know
         components.progress-bar(
           height: 5pt,
