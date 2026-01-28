@@ -29,7 +29,7 @@
 #toc-slide()[]
 
 //slide title is a heading level 2, you can change with head: 1
-#slide(title: [Introduction], size: 16pt, spacing: 0.5em)[
+#slide(title: [Introduction], spacing: 0.5em)[
   #lorem(290)
 ]
 
@@ -42,7 +42,6 @@
   #text(size: 14pt)[
     #lorem(100)
   ]
-
 ][
   #place(horizon)[
     #figure(
@@ -50,8 +49,6 @@
       caption: [The CMS event display],
     )
   ]
-
-
 ]
 
 #slide(title: [Two columns])[

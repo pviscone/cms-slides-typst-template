@@ -61,8 +61,8 @@
   alignment: none,
   outlined: true,
   head: 2,
-  size: 20pt,
-  spacing: 0.65em,
+  size: none,
+  spacing: none,
   ..args,
 ) = touying-slide-wrapper(self => context {
   let appendix = appendix-state.get()
@@ -126,10 +126,10 @@
       #set text(size: info.footer_size)
       #let foot_info = info.at("footer", default: ("", "", ""))
       #rect(fill: white, height: 0.9cm, width: 100%, [
-        #place(horizon+left)[
+        #place(horizon + left)[
           #grid(
             columns: (1fr, 1fr, 1fr),
-            align: (left+horizon, center+horizon, right+horizon),
+            align: (left + horizon, center + horizon, right + horizon),
             column-gutter: 0cm,
             [
               #set align(left + horizon)
@@ -139,25 +139,26 @@
                 #set text(weight: "bold", fill: self.colors.tertiary, size: 14pt)
                 #utils.slide-counter.display()
               ]
-              #place(horizon+left)[
+              #place(horizon + left)[
                 #h(26pt)
                 #eval(foot_info.at(0), mode: "markup", scope: scope)
               ]
-            ],[
+            ],
+            [
               #place(horizon)[
                 #eval(foot_info.at(1), mode: "markup", scope: scope)
               ]
-            ],[
-              #place(horizon+right)[
+            ],
+            [
+              #place(horizon + right)[
                 #eval(foot_info.at(2), mode: "markup", scope: scope)
                 #h(5pt)
               ]
-            ]
+            ],
           )
         ]
-      ]
-    )
-  ]
+      ])
+    ]
 
 
     // Progress bar
@@ -172,8 +173,10 @@
       ))
     }
   }
-  set text(size: size)
-  set par(leading: spacing)
+
+  set text(size: if size != none { size } else { text.size })
+  set par(leading: if spacing != none { spacing } else { par.leading })
+
   let self = utils.merge-dicts(
     self,
     config-common(

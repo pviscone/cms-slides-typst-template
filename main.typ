@@ -28,10 +28,14 @@
     primary: rgb("2651a8"),
     secondary: rgb("F75C2F"),
     tertiary: rgb("FFFFFF"),
+    footer: rgb("808080")
   ),
 )
 
 #title-slide(title_multiplier: 0.9, subtitle_multiplier: 1.0, author_multiplier: 1.0, extra_multiplier: 1.0)
+
+#set text(size: 16pt)
+#set par(leading: 0.6em)
 
 #include "chapters/showcase.typ"
 
