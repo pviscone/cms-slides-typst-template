@@ -11,6 +11,7 @@
 #import "@preview/fletcher:0.5.8" as fletcher: edge, node // For bindings
 #import "@preview/tiaoma:0.3.0" // For auto QR generation
 #import "@preview/pinit:0.2.2": *
+#import "@preview/cheq:0.3.0": checklist
 
 // Styling Macro Imports
 #import "@preview/showybox:2.0.4": showybox
@@ -643,12 +644,16 @@
         self: none,
         body,
       ) => {
+        show: checklist.with(fill: luma(95%), stroke: self.colors.primary, radius: .2em)
         // TUGraz uses Source Sans Pro, but its a licensed Adobe font
         set text(size: 20pt, lang: "en", region: "US", font: font)
         show emph: it => { text(self.colors.primary, it.body) }
         show cite: it => { text(self.colors.primary, it) }
         show strong: it => { text(weight: "bold", it.body) }
-
+        show figure.where(kind: image): it => align(center)[
+          #block(below: 0.65em, it.body)
+          #it.caption.body
+        ]
         // Bibliography
 
         set bibliography(title: none, style: "ieee")
@@ -875,3 +880,24 @@
 ]
 
 //vim:tabstop=2 softtabstop=2 shiftwidth=2 noexpandtab colorcolumn=81
+#let cols(count, gutter: 1em, align: top, ..cells) = [
+  #grid(columns: count, gutter: gutter, align: align, ..cells)
+]
+
+#let rows(count, gutter: 1em, align: top, ..cells) = [
+  #grid(rows: count, gutter: gutter, align: align, ..cells)
+]
+
+#let put(position, body) = {
+  block(height: 100%, width: 100%)[
+    #align(position)[
+      #body
+    ]
+  ]
+}
+
+#let bx(position: left, ..any, body) = rect(..any)[
+        #align(position)[
+          #body
+        ]
+      ]
