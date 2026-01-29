@@ -9,7 +9,7 @@
 #import "@preview/codly:1.3.0": * // For bindings
 #import "@preview/codly-languages:0.1.8": *
 #import "@preview/cetz:0.4.1" // For bindings
-#import "@preview/fletcher:0.5.8" as fletcher: edge, node, diagram // For bindings
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node // For bindings
 #import "@preview/tiaoma:0.3.0" // For auto QR generation
 #import "@preview/pinit:0.2.2": *
 #import "@preview/cheq:0.3.0": checklist
@@ -967,10 +967,23 @@
   ]
 ]
 
-#let pinit-highlight-equation-from(height: 2em, pos: bottom, fill: rgb(0, 180, 255), highlight-pins, point-pin, body) = {
+#let pinit-highlight-equation-from(
+  height: 2em,
+  pos: bottom,
+  fill: rgb(0, 180, 255),
+  highlight-pins,
+  point-pin,
+  body,
+) = {
   pinit-highlight(..highlight-pins, dy: -0.9em, fill: rgb(..fill.components().slice(0, -1), 40))
   pinit-point-from(
-    fill: fill, pin-dx: 0em, pin-dy: if pos == bottom { 0.5em } else { -0.9em }, body-dx: 0pt, body-dy: if pos == bottom { -1.7em } else { -1.6em }, offset-dx: 0em, offset-dy: if pos == bottom { 0.8em + height } else { -0.6em - height },
+    fill: fill,
+    pin-dx: 0em,
+    pin-dy: if pos == bottom { 0.5em } else { -0.9em },
+    body-dx: 0pt,
+    body-dy: if pos == bottom { -1.7em } else { -1.6em },
+    offset-dx: 0em,
+    offset-dy: if pos == bottom { 0.8em + height } else { -0.6em - height },
     point-pin,
     rect(
       inset: 0.5em,
@@ -978,7 +991,7 @@
       {
         set text(fill: fill)
         body
-      }
-    )
+      },
+    ),
   )
 }
