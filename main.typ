@@ -28,12 +28,20 @@
     primary: rgb("2651a8"),
     secondary: rgb("F75C2F"),
     tertiary: rgb("FFFFFF"),
-    footer: rgb("808080")
+    footer: rgb("808080"),
   ),
 )
 
-#title-slide(title_multiplier: 0.9, subtitle_multiplier: 1.0, author_multiplier: 1.0, extra_multiplier: 1.0)
+#title-slide(
+  //background: "image.png", //If you want to customize the cover image
+  title_multiplier: 0.9,
+  subtitle_multiplier: 1.0,
+  author_multiplier: 1.0,
+  extra_multiplier: 1.0,
+)
 
+//Set some defaults if you want
+#set rect(radius: 10pt)
 #set text(size: 16pt)
 #set par(leading: 0.6em)
 

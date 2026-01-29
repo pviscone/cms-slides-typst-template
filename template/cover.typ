@@ -4,6 +4,7 @@
 
 /// -> content
 #let title-slide(
+  background: "assets/cms_cover.png",
   title_multiplier: 1.0,
   subtitle_multiplier: 1.0,
   author_multiplier: 1.0,
@@ -38,7 +39,7 @@
     */
     set page(background: context [
 
-      #image("assets/cms_cover.png", height: page.height + 10pt)
+      #image(background, height: page.height + 10pt)
     ])
 
 

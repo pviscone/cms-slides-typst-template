@@ -52,6 +52,7 @@
 #let hc = [h.c.]
 
 // ---------- Common particles / final states ----------
+#let to = [#sym.arrow.r]
 #let tauh = [$tau_text("h")$]
 #let tt = [$tau tau$]
 #let ll = [$ell ell'$]
@@ -188,6 +189,7 @@
 #let bstn = [$b → c tau overline(nu)_tau$]
 #let ttbar = [$t overline(t)$]
 #let bbbar = [$b overline(b)$]
+#let nunu = [#PGnl#PGnl]
 #let EE = [$e^+ e^-$]
 #let MM = [$mu^+ mu^-$]
 #let TT = [$tau^+ tau^-$]

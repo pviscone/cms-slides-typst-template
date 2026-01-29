@@ -7,11 +7,16 @@
 
 // Core Imports
 #import "@preview/codly:1.3.0": * // For bindings
+#import "@preview/codly-languages:0.1.8": *
 #import "@preview/cetz:0.4.1" // For bindings
-#import "@preview/fletcher:0.5.8" as fletcher: edge, node // For bindings
+#import "@preview/fletcher:0.5.8" as fletcher: edge, node, diagram // For bindings
 #import "@preview/tiaoma:0.3.0" // For auto QR generation
 #import "@preview/pinit:0.2.2": *
 #import "@preview/cheq:0.3.0": checklist
+#import "@preview/lovelace:0.3.0": *
+#import "@preview/quick-maths:0.2.1": shorthands
+#import "@preview/physica:0.9.8": *
+
 
 // Styling Macro Imports
 #import "@preview/showybox:2.0.4": showybox
@@ -21,6 +26,7 @@
 // -----------------------------------------------------------------------------
 
 #let appendix-state = state("appendix-mode", false)
+#let slide-tag-state = state("slide-tag-state", ())
 
 // -----------------------------------------------------------------------------
 // General Config
@@ -64,10 +70,12 @@
   head: 2,
   size: none,
   spacing: none,
+  tag: none,
   ..args,
 ) = touying-slide-wrapper(self => context {
   let appendix = appendix-state.get()
   let info = self.info + args.named()
+
 
   // Header:slide
   // ---------------------------------------------------------------------------
@@ -76,24 +84,42 @@
   //I made a mess but it works fine with 3 logos. To be improved in the future
   let header(self) = {
     // Slide Title: if the user overrides the title of a certain slide, use it
-    let hdr = if title != auto { title } else { "" }
+    let hdr = if title != none { title } else { "" }
+
     let height = 1.4cm
     show heading: set text(size: 24pt, weight: "bold")
 
-    rect(fill: self.colors.primary, height: height, width: 100%, [
+    rect(fill: self.colors.primary, height: height, width: 100%, radius: 0pt, [
       #place(horizon)[
         #grid(
           columns: (1fr, 1fr),
           align: (left + horizon, right + horizon),
           [
-            #heading(
-              level: head,
-              outlined: outlined,
-              [
-                #set text(fill: self.colors.tertiary)
-                #h(7pt)#hdr
-              ],
-            )
+            #context {
+              if tag != none and not slide-tag-state.get().contains(tag) [
+                #heading(
+                  level: head,
+                  outlined: outlined,
+                  [
+                    #set text(fill: self.colors.tertiary)
+                    #h(7pt)#hdr
+                  ],
+                )#tag
+              ] else [
+                #heading(
+                  level: head,
+                  outlined: outlined,
+                  [
+                    #set text(fill: self.colors.tertiary)
+                    #h(7pt)#hdr
+                  ],
+                )
+              ]
+            }
+            #slide-tag-state.update(tags => {
+              tags.push(tag)
+              tags
+            })
           ],
           [
             #grid(
@@ -314,6 +340,7 @@
   weight: "regular",
   color: none,
   text-color: none,
+  tag: none,
   ..args,
   body,
 ) = touying-slide-wrapper(self => context {
@@ -332,9 +359,17 @@
     align(center + horizon)[
       #if title != none [
         #set text(size: size * 1.3, weight: "bold", fill: tc)
-        #heading(level: 1, outlined: true)[
-          #title
-        ]
+        #context {
+          if tag != none and not slide-tag-state.get().contains(tag) [
+            #heading(level: 1, outlined: true)[
+              #title
+            ]#tag
+          ] else [
+            #heading(level: 1, outlined: true)[
+              #title
+            ]
+          ]
+        }
         #v(1.2cm)
       ]
       #body
@@ -570,16 +605,18 @@
       new-section-slide-fn: none,
       preamble: {
         codly(
-          display-name: false,
-          display-icon: false,
-          radius: 0pt,
+          display-name: true,
+          display-icon: true,
+          radius: 6pt,
           stroke: 1pt + black,
           smart-indent: true,
           fill: luma(260),
           zebra-fill: luma(250),
-          number-format: number => [#text(size: 12pt, fill: gray)[#number]],
+          number-format: number => [#text(size: 10pt, fill: gray)[#number]],
           number-align: right + horizon,
           breakable: true,
+          inset: 0.25em,
+          languages: codly-languages,
         )
       },
     ),
@@ -647,6 +684,8 @@
         show: checklist.with(fill: luma(95%), stroke: self.colors.primary, radius: .2em)
         // TUGraz uses Source Sans Pro, but its a licensed Adobe font
         set text(size: 20pt, lang: "en", region: "US", font: font)
+        show smallcaps: set text(font: "Latin Modern Roman Caps")
+
         show emph: it => { text(self.colors.primary, it.body) }
         show cite: it => { text(self.colors.primary, it) }
         show strong: it => { text(weight: "bold", it.body) }
@@ -654,8 +693,34 @@
           #block(below: 0.65em, it.body)
           #it.caption.body
         ]
-        // Bibliography
 
+        //Links
+        show link: underline
+        show link: set text(fill: self.colors.urlA)
+
+        // Slide tag references: @label -> Page <n>
+        show ref: it => {
+          let targets = query(it.target)
+          if targets.len() > 0 {
+            let target = targets.at(0)
+            if target.has("level") {
+              if target.level == 1 or target.level == 2 {
+                let loc = locate(it.target)
+                if loc != none {
+                  link(loc)[Pag. #loc.page()]
+                } else {
+                  it
+                }
+              }
+            } else {
+              it
+            }
+          } else {
+            it
+          }
+        }
+
+        // Bibliography
         set bibliography(title: none, style: "ieee")
         set cite(style: "ieee")
         show bibliography: set par(spacing: 0.4cm)
@@ -675,7 +740,7 @@
             (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: black))),
             (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: gray))),
           ),
-          body-indent: 1.2em,
+          body-indent: 0.3cm,
         )
         set enum(
           numbering: n => {
@@ -683,12 +748,12 @@
               #align(center + horizon)[ #text(size: 12pt, fill: white)[#n] ]
             ]
           },
-          body-indent: 0.6cm,
+          body-indent: 0.3cm,
         )
 
         // Code blocks
         show: codly-init.with()
-        show raw.where(block: true): set text(size: 13pt)
+        show raw.where(block: true): set text(size: 11pt)
 
         // Hotfixes, the messy part
 
@@ -888,8 +953,8 @@
   #grid(rows: count, gutter: gutter, align: align, ..cells)
 ]
 
-#let put(position, body) = {
-  block(height: 100%, width: 100%)[
+#let put(position, body, height: 100%, width: 100%) = {
+  block(height: height, width: width)[
     #align(position)[
       #body
     ]
@@ -897,7 +962,23 @@
 }
 
 #let bx(position: left, ..any, body) = rect(..any)[
-        #align(position)[
-          #body
-        ]
-      ]
+  #align(position)[
+    #body
+  ]
+]
+
+#let pinit-highlight-equation-from(height: 2em, pos: bottom, fill: rgb(0, 180, 255), highlight-pins, point-pin, body) = {
+  pinit-highlight(..highlight-pins, dy: -0.9em, fill: rgb(..fill.components().slice(0, -1), 40))
+  pinit-point-from(
+    fill: fill, pin-dx: 0em, pin-dy: if pos == bottom { 0.5em } else { -0.9em }, body-dx: 0pt, body-dy: if pos == bottom { -1.7em } else { -1.6em }, offset-dx: 0em, offset-dy: if pos == bottom { 0.8em + height } else { -0.6em - height },
+    point-pin,
+    rect(
+      inset: 0.5em,
+      stroke: (bottom: 0.12em + fill),
+      {
+        set text(fill: fill)
+        body
+      }
+    )
+  )
+}
