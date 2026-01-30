@@ -12,7 +12,7 @@
     authors: (
       "*Piero Viscone*": ("CERN", "University of Zürich"),
       "Author Second": ("CERN", "University of Zürich"),
-      "Author Thirds": ("CERN",),
+      "Author Third": ("CERN",),
       "\ on behalf of the CMS Collaboration": (),
     ),
     conference: "Conference 2077",
