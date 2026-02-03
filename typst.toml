@@ -1,0 +1,19 @@
+[package]
+name = "cms-slides"
+version = "1.0.0"
+entrypoint = "src/lib.typ"
+authors = ["Piero Viscone <piero.viscone@cern.ch>"]
+license = "MIT"
+description = "An unofficial CMS experiment slides template"
+repository = "https://github.com/pviscone/cms-slides-typst-template"
+categories = ["presentation"]
+disciplines = ["physiscs"]
+keywords = ["CERN", "CMS", "thesis", "template"]
+compiler = "0.14.2"
+
+
+[[tool.prequery.jobs]]
+name = "download"
+kind = "web-resource"
+overwrite = true
+
