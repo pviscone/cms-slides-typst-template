@@ -42,8 +42,8 @@
 
 //Set some defaults if you want
 #set rect(radius: 10pt)
-#set text(size: 16pt)
-#set par(leading: 0.6em)
+#set text(size: 14pt)
+#set par(leading: 0.7em)
 
 #include "chapters/showcase.typ"
 

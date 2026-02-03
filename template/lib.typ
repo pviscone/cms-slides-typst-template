@@ -95,7 +95,7 @@
     rect(fill: self.colors.primary, height: height, width: 100%, radius: 0pt, [
       #place(horizon)[
         #grid(
-          columns: (1fr, 1fr),
+          columns: (80%, 20%),
           align: (left + horizon, right + horizon),
           [
             #context {
@@ -127,7 +127,7 @@
           [
             #grid(
               columns: (1fr,) * self.store.logo.len(),
-              column-gutter: -14cm + height * self.store.logo.len(),
+              column-gutter: -6cm + 1.5cm * self.store.logo.len(),
               ..self.store.logo.map(logo => image(logo, height: height * 0.85)),
             )
           ],
@@ -744,6 +744,7 @@
             (move(dy: 0.11cm, square(width: 0.4em, height: 0.4em, fill: gray))),
           ),
           body-indent: 0.3cm,
+          indent: 0.1cm
         )
         set enum(
           numbering: n => {
@@ -752,6 +753,7 @@
             ]
           },
           body-indent: 0.3cm,
+          indent: 0.1cm
         )
 
         // Code blocks
@@ -1001,8 +1003,8 @@
 
 #let set_base_imgurl(webeos_base, image_base) = {
   // Define the inner function
-  let webeos_image(image_path) = {
-    return prequery_image(webeos_base + image_path, image_base + image_path)
+  let webeos_image(image_path, ..any) = {
+    return prequery_image(webeos_base + image_path, image_base + image_path, ..any)
   }
   // Return the function itself (no parentheses!)
   return webeos_image
