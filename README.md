@@ -1,7 +1,7 @@
 
 # CMS Typst Slides Template
 
-**Showcase**: [main.pdf](https://github.com/pviscone/cms-slides-typst-template/blob/master/main.pdf)
+**Showcase**: [main.pdf]([https://github.com/pviscone/cms-slides-typst-template/blob/master/main.pdf](https://github.com/pviscone/cms-slides-typst-template2/releases/download/v1.0/main.pdf))
 
 This is a Typst slide template with a clean visual style and a set of helper macros.
 
