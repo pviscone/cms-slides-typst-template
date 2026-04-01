@@ -46,6 +46,7 @@
 #set par(leading: 0.7em)
 
 #include "chapters/showcase.typ"
+#include "chapters/slides.typ"
 
 #slide(title: [Bibliography])[
   #bibliography("references/bibliography.bib")

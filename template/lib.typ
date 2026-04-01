@@ -175,7 +175,7 @@
               ]
             ],
             [
-              #place(horizon)[
+              #place(horizon+center)[
                 #eval(foot_info.at(1), mode: "markup", scope: scope)
               ]
             ],
